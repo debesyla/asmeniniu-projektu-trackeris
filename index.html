@@ -175,7 +175,6 @@ function render() {
     <div class="topbar">
       <span class="topbar-title">${title}</span>
       <span class="topbar-meta">DB updated ${relTime(updated)}</span>
-      <button class="btn" id="reload-btn" title="Reload"><i class="ti ti-refresh"></i></button>
     </div>
 
     ${!isBacklog ? `
@@ -194,7 +193,6 @@ function render() {
 
   document.querySelectorAll('.nav-item[data-f]').forEach(el =>
     el.addEventListener('click', () => { filter=el.dataset.f; section=el.dataset.s; render(); }));
-  document.getElementById('reload-btn').addEventListener('click', load);
 }
 
 function renderProjects(projects) {

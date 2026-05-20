@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launchpad</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.30.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --bg0:#fff;--bg1:#f8f7f4;--bg2:#f1efe8;
+  --t0:#1c1c1a;--t1:#6b6b67;--t2:#a0a09a;
+  --bd:rgba(0,0,0,0.12);--bds:rgba(0,0,0,0.24);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg0:#1c1c1a;--bg1:#242422;--bg2:#2c2c2a;
+  --t0:#edeae3;--t1:#8a8a85;--t2:#5a5a57;
+  --bd:rgba(255,255,255,0.1);--bds:rgba(255,255,255,0.22);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg2);color:var(--t0);font-size:13px;line-height:1.5}
+a{color:inherit}
+
+.layout{display:grid;grid-template-columns:200px 1fr;height:100vh}
+.sidebar{background:var(--bg1);border-right:0.5px solid var(--bd);display:flex;flex-direction:column;overflow-y:auto}
+.main{display:flex;flex-direction:column;overflow:hidden}
+
+.sidebar-logo{padding:15px 16px 12px;font-weight:500;font-size:14px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid var(--bd)}
+.sidebar-logo i{font-size:17px;color:var(--t1)}
+.nav-section{padding:14px 16px 4px;font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.07em}
+.nav-item{padding:6px 16px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;user-select:none}
+.nav-item:hover{background:var(--bg0);color:var(--t0)}
+.nav-item.active{background:var(--bg0);color:var(--t0);font-weight:500}
+.nav-item i{font-size:14px;flex-shrink:0}
+.nav-item:last-child{margin-top:auto}
+.nav-count{margin-left:auto;font-size:11px;background:var(--bg2);color:var(--t1);padding:1px 6px;border-radius:10px}
+
+.topbar{padding:11px 20px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg0);flex-shrink:0;gap:10px}
+.topbar-title{font-size:14px;font-weight:500}
+.topbar-meta{font-size:11px;color:var(--t2);margin-right:auto}
+.btn{padding:4px 7px;border:0.5px solid var(--bds);border-radius:8px;background:transparent;color:var(--t0);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font:inherit;transition:background .1s}
+.btn:hover{background:var(--bg1)}
+.btn i{font-size:13px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 20px;border-bottom:0.5px solid var(--bd);background:var(--bg0);flex-shrink:0}
+.stat{background:var(--bg1);border-radius:8px;padding:9px 12px}
+.stat-label{font-size:11px;color:var(--t1);margin-bottom:3px}
+.stat-val{font-size:19px;font-weight:500}
+.stat-val small{font-size:11px;font-weight:400;color:var(--t1)}
+
+.content{flex:1;overflow-y:auto;padding:16px 20px}
+
+.project-list{display:flex;flex-direction:column;gap:8px}
+.project-card{background:var(--bg0);border:0.5px solid var(--bd);border-radius:12px;padding:13px 15px;transition:border-color .15s}
+.project-card:hover{border-color:var(--bds)}
+.project-card.graveyard{opacity:.5}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:5px}
+.card-name{font-size:13px;font-weight:500}
+.card-name a{color:var(--t0);text-decoration:none}
+.card-name a:hover{text-decoration:underline}
+.card-submeta{font-size:11px;color:var(--t1);margin-top:1px}
+.badges{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;align-items:flex-start}
+.badge{font-size:11px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-active{background:#e1f5ee;color:#0f6e56}
+.badge-paused{background:#faeeda;color:#854f0b}
+.badge-planning{background:#eeedfe;color:#3c3489}
+.badge-graveyard{background:#f1efe8;color:#5f5e5a}
+.badge-todo{background:#e6f1fb;color:#185fa5}
+.badge-issue{background:#fcebeb;color:#a32d2d}
+.badge-idea{background:#fbeaf0;color:#72243e}
+.badge-research{background:#eaf3de;color:#3b6d11}
+@media(prefers-color-scheme:dark){
+  .badge-active{background:#085041;color:#9fe1cb}
+  .badge-paused{background:#633806;color:#fac775}
+  .badge-planning{background:#3c3489;color:#cecbf6}
+  .badge-graveyard{background:#444441;color:#b4b2a9}
+  .badge-todo{background:#0c447c;color:#b5d4f4}
+  .badge-issue{background:#791f1f;color:#f7c1c1}
+  .badge-idea{background:#72243e;color:#f4c0d1}
+  .badge-research{background:#27500a;color:#c0dd97}
+}
+.card-desc{font-size:12px;color:var(--t1);line-height:1.55;margin:6px 0 10px}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:9px;border-top:0.5px solid var(--bd)}
+.progress-wrap{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.progress-bar{flex:1;height:3px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px}
+.pct{font-size:11px;color:var(--t1);flex-shrink:0;min-width:26px;text-align:right}
+.agent-pill{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--bg1);color:var(--t1);border:0.5px solid var(--bd);display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+
+.section-header{display:flex;align-items:center;gap:8px;margin:4px 0 10px}
+.section-header h2{font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px;font-size:14px}
+.section-count{font-size:11px;color:var(--t1);background:var(--bg2);padding:1px 6px;border-radius:10px}
+.backlog-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.backlog-item{background:var(--bg0);border:0.5px solid var(--bd);border-radius:8px;padding:9px 13px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.backlog-item-meta{font-size:11px;color:var(--t1);margin-top:1px}
+
+.empty{padding:40px;text-align:center;color:var(--t1)}
+.error{background:#fcebeb;color:#a32d2d;border:0.5px solid #f09595;border-radius:8px;padding:12px 14px;font-size:12px;margin:20px;line-height:1.7}
+.error code{background:rgba(0,0,0,0.07);padding:1px 5px;border-radius:3px}
+@media(prefers-color-scheme:dark){.error{background:#791f1f;color:#f7c1c1;border-color:#e24b4a}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .7s linear infinite;display:inline-block}
+.loading{display:flex;align-items:center;justify-content:center;gap:8px;padding:48px;color:var(--t1)}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><i class="ti ti-loader spin"></i>Loading…</div></div>
+<script>
+let data = null;
+let filter = 'all';
+let section = 'projects';
+
+// Normalize on load so render code never needs ||[] or ||0 guards
+function normalize(d) {
+  for (const p of d.projects) {
+    p.todos    = p.todos    || [];
+    p.issues   = p.issues   || [];
+    p.ideas    = p.ideas    || [];
+    p.research = p.research || [];
+    p.progress = p.progress || 0;
+  }
+  d.backlog = d.backlog || [];
+  return d;
+}
+
+// Single pass over projects for all counts
+function stats(projects) {
+  return projects.reduce((s, p) => {
+    s[p.status] = (s[p.status] || 0) + 1;
+    s.all++;
+    s.issues += p.issues.length;
+    s.todos  += p.todos.length;
+    return s;
+  }, { all:0, active:0, planning:0, paused:0, graveyard:0, issues:0, todos:0 });
+}
+
+function relTime(iso) {
+  const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (s < 3600)    return `${Math.floor(s/60)}m ago`;
+  if (s < 86400)   return `${Math.floor(s/3600)}h ago`;
+  if (s < 2592000) return `${Math.floor(s/86400)}d ago`;
+  return `${Math.floor(s/2592000)}mo ago`;
+}
+function progressColor(p) { return p >= 70 ? '#1d9e75' : p >= 30 ? '#ef9f27' : '#888780'; }
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  const { projects, backlog, updated } = data;
+  const s = stats(projects);
+  const isBacklog = section === 'backlog';
+  const title = isBacklog ? 'Backlog' : cap(filter === 'all' ? 'All projects' : filter);
+
+  const nav = (f, sec, icon, label, n) => `
+    <div class="nav-item${section===sec&&filter===f?' active':''}" data-f="${f}" data-s="${sec}">
+      <i class="ti ti-${icon}"></i>${label}<span class="nav-count">${n}</span>
+    </div>`;
+
+  document.getElementById('app').innerHTML = `
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-logo"><i class="ti ti-layout-dashboard"></i>Launchpad</div>
+    <div class="nav-section">Projects</div>
+    ${nav('all',       'projects','list',        'All projects', s.all)}
+    ${nav('active',    'projects','player-play', 'Active',       s.active)}
+    ${nav('planning',  'projects','pencil',      'Planning',     s.planning)}
+    ${nav('paused',    'projects','player-pause','Paused',       s.paused)}
+    <div class="nav-section">More</div>
+    ${nav('all',       'backlog', 'bulb',        'Backlog',      backlog.length)}
+    ${nav('graveyard', 'projects','skull',       'Graveyard',    s.graveyard)}
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title">${title}</span>
+      <span class="topbar-meta">DB updated ${relTime(updated)}</span>
+      <button class="btn" id="reload-btn" title="Reload"><i class="ti ti-refresh"></i></button>
+    </div>
+
+    ${!isBacklog ? `
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-val">${s.all} <small>projects</small></div></div>
+      <div class="stat"><div class="stat-label">Active</div><div class="stat-val">${s.active} <small>running</small></div></div>
+      <div class="stat"><div class="stat-label">Open bugs</div><div class="stat-val">${s.issues} <small>issues</small></div></div>
+      <div class="stat"><div class="stat-label">Todos</div><div class="stat-val">${s.todos} <small>tasks</small></div></div>
+    </div>` : ''}
+
+    <div class="content">
+      ${isBacklog ? renderBacklog(backlog) : renderProjects(projects.filter(p => filter==='all' || p.status===filter))}
+    </div>
+  </div>
+</div>`;
+
+  document.querySelectorAll('.nav-item[data-f]').forEach(el =>
+    el.addEventListener('click', () => { filter=el.dataset.f; section=el.dataset.s; render(); }));
+  document.getElementById('reload-btn').addEventListener('click', load);
+}
+
+function renderProjects(projects) {
+  if (!projects.length) return `<div class="empty">No projects in this view.</div>`;
+  return `<div class="project-list">${projects.map(p => `
+<div class="project-card${p.status==='graveyard'?' graveyard':''}">
+  <div class="card-top">
+    <div>
+      <div class="card-name">${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)}</div>
+      <div class="card-submeta">${relTime(p.updated)}</div>
+    </div>
+    <div class="badges">
+      <span class="badge badge-${p.status}">${cap(p.status)}</span>
+      ${p.todos.length    ? `<span class="badge badge-todo">${p.todos.length} todo${p.todos.length>1?'s':''}</span>`       : ''}
+      ${p.issues.length   ? `<span class="badge badge-issue">${p.issues.length} issue${p.issues.length>1?'s':''}</span>`  : ''}
+      ${p.ideas.length    ? `<span class="badge badge-idea">${p.ideas.length} idea${p.ideas.length>1?'s':''}</span>`      : ''}
+      ${p.research.length ? `<span class="badge badge-research">${p.research.length} research</span>`                     : ''}
+    </div>
+  </div>
+  ${p.description ? `<div class="card-desc">${esc(p.description)}</div>` : ''}
+  <div class="card-footer">
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" style="width:${p.progress}%;background:${progressColor(p.progress)}"></div></div>
+      <span class="pct">${p.progress}%</span>
+    </div>
+    <span class="agent-pill"><i class="ti ti-robot"></i>${p.agent ? esc(p.agent) : 'no agent'}</span>
+  </div>
+</div>`).join('')}</div>`;
+}
+
+function renderBacklog(backlog) {
+  if (!backlog.length) return `<div class="empty">No backlog items.</div>`;
+  const section = (icon, label, items) => !items.length ? '' : `
+    <div class="section-header">
+      <h2><i class="ti ti-${icon}"></i>${label}</h2>
+      <span class="section-count">${items.length}</span>
+    </div>
+    <div class="backlog-list">
+      ${items.map(i => `
+      <div class="backlog-item">
+        <div>
+          <div>${esc(i.title)}</div>
+          <div class="backlog-item-meta">${relTime(i.created)}</div>
+        </div>
+        <span class="badge badge-${i.type}">${i.type}</span>
+      </div>`).join('')}
+    </div>`;
+  return section('bulb',  'Ideas',    backlog.filter(b => b.type==='idea'))
+       + section('book',  'Research', backlog.filter(b => b.type==='research'));
+}
+
+async function load() {
+  try {
+    const r = await fetch('./projects.json?_=' + Date.now());
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    data = normalize(await r.json());
+    render();
+  } catch(e) {
+    document.getElementById('app').innerHTML = `
+<div class="error">
+  <b>Could not load projects.json</b><br><br>
+  Serve this folder locally — don't open index.html as a file directly.<br><br>
+  <code>python3 -m http.server 8000</code> then open <code>http://localhost:8000</code>
+</div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>

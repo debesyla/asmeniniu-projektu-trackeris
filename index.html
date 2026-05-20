@@ -199,7 +199,7 @@ function renderProjects(projects) {
   <div class="card-top">
     <div>
       <div class="card-name">${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)}</div>
-      <div class="card-submeta">${relTime(p.updated)}</div>
+      <div class="card-submeta">Last commit made ${relTime(p.updated)}</div>
     </div>
     <div class="badges">
       <span class="badge badge-${p.status}">${cap(p.status)}</span>

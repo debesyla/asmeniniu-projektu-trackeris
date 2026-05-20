@@ -209,10 +209,7 @@ function renderProjects(projects) {
     </div>
     <div class="badges">
       <span class="badge badge-${p.status}">${cap(p.status)}</span>
-      ${p.todos.length    ? `<span class="badge badge-todo">${p.todos.length} todo${p.todos.length>1?'s':''}</span>`       : ''}
-      ${p.issues.length   ? `<span class="badge badge-issue">${p.issues.length} issue${p.issues.length>1?'s':''}</span>`  : ''}
-      ${p.ideas.length    ? `<span class="badge badge-idea">${p.ideas.length} idea${p.ideas.length>1?'s':''}</span>`      : ''}
-      ${p.research.length ? `<span class="badge badge-research">${p.research.length} research</span>`                     : ''}
+      <span class="badge badge-issue">${p.issues.length} GitHub issue${p.issues.length===1?'':'s'}</span>
     </div>
   </div>
   ${p.description ? `<div class="card-desc">${esc(p.description)}</div>` : ''}

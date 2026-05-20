@@ -136,11 +136,14 @@ function stats(projects) {
 }
 
 function relTime(iso) {
-  const s = Math.floor((Date.now() - new Date(iso)) / 1000);
-  if (s < 3600)    return `${Math.floor(s/60)}m ago`;
-  if (s < 86400)   return `${Math.floor(s/3600)}h ago`;
-  if (s < 2592000) return `${Math.floor(s/86400)}d ago`;
-  return `${Math.floor(s/2592000)}mo ago`;
+  const deltaSeconds = Math.floor((Date.now() - new Date(iso)) / 1000);
+  const s = Math.max(0, deltaSeconds);
+  if (s < 3600) {
+    const m = Math.max(1, Math.floor(s / 60));
+    return `${m}m ago`;
+  }
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  return `${Math.floor(s / 86400)}d ago`;
 }
 function progressColor(p) { return p >= 70 ? '#1d9e75' : p >= 30 ? '#ef9f27' : '#888780'; }
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }

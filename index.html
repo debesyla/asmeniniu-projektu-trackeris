@@ -183,7 +183,11 @@ function render() {
     </div>` : ''}
 
     <div class="content">
-      ${isBacklog ? renderBacklog(backlog) : renderProjects(projects.filter(p => filter==='all' || p.status===filter))}
+      ${isBacklog ? renderBacklog(backlog) : renderProjects(
+        projects
+          .filter(p => filter==='all' || p.status===filter)
+          .sort((a, b) => new Date(b.updated) - new Date(a.updated))
+      )}
     </div>
   </div>
 </div>`;

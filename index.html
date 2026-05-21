@@ -33,7 +33,6 @@ a{color:inherit}
 .nav-item:hover{background:var(--bg0);color:var(--t0)}
 .nav-item.active{background:var(--bg0);color:var(--t0);font-weight:500}
 .nav-item i{font-size:14px;flex-shrink:0}
-.nav-item:last-child{margin-top:auto}
 .nav-count{margin-left:auto;font-size:11px;background:var(--bg2);color:var(--t1);padding:1px 6px;border-radius:10px}
 
 .topbar{padding:11px 20px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg0);flex-shrink:0;gap:10px}
@@ -163,9 +162,9 @@ function render() {
     <div class="nav-section">Projects</div>
     ${nav('all',       'projects','list',        'All projects', s.all)}
     ${nav('active',    'projects','player-play', 'Active',       s.active)}
+    ${nav('graveyard', 'projects','skull',       'Graveyard',    s.graveyard)}
     <div class="nav-section">More</div>
     ${nav('all',       'backlog', 'bulb',        'Backlog',      backlog.length)}
-    ${nav('graveyard', 'projects','skull',       'Graveyard',    s.graveyard)}
   </nav>
 
   <div class="main">

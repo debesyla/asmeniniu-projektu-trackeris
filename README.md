@@ -46,7 +46,6 @@ Each project supports:
 - `description`
 - `status` (`active` or `graveyard`)
 - `agent`
-- `progress` (0-100)
 - `url`
 - `updated` (ISO datetime)
 - `todos`, `issues`, `ideas`, `research` (arrays)

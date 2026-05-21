@@ -50,7 +50,9 @@ a{color:inherit}
 
 .content{flex:1;overflow-y:auto;padding:16px 20px}
 
-.project-list{display:flex;flex-direction:column;gap:8px}
+.project-list{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:980px){.project-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1400px){.project-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .project-card{background:var(--bg0);border:0.5px solid var(--bd);border-radius:12px;padding:13px 15px;transition:border-color .15s}
 .project-card.graveyard{opacity:.5}
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:5px}
@@ -75,11 +77,6 @@ a{color:inherit}
   .badge-research{background:#27500a;color:#c0dd97}
 }
 .card-desc{font-size:12px;color:var(--t1);line-height:1.55;margin:6px 0 10px}
-.card-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:9px;border-top:0.5px solid var(--bd)}
-.progress-wrap{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-.progress-bar{flex:1;height:3px;background:var(--bg2);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;border-radius:2px}
-.pct{font-size:11px;color:var(--t1);flex-shrink:0;min-width:26px;text-align:right}
 .agent-pill{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--bg1);color:var(--t1);border:0.5px solid var(--bd);display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
 
 .section-header{display:flex;align-items:center;gap:8px;margin:4px 0 10px}
@@ -113,7 +110,6 @@ function normalize(d) {
     p.issues   = p.issues   || [];
     p.ideas    = p.ideas    || [];
     p.research = p.research || [];
-    p.progress = p.progress || 0;
   }
   d.backlog = d.backlog || [];
   return d;
@@ -140,7 +136,6 @@ function relTime(iso) {
   if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
   return `${Math.floor(s / 86400)}d ago`;
 }
-function progressColor(p) { return p >= 70 ? '#1d9e75' : p >= 30 ? '#ef9f27' : '#888780'; }
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -207,16 +202,10 @@ function renderProjects(projects) {
     <div class="badges">
       <span class="badge badge-${p.status}">${cap(p.status)}</span>
       <span class="badge badge-issue">${p.issues.length} GitHub issue${p.issues.length===1?'':'s'}</span>
+      <span class="agent-pill"><i class="ti ti-robot"></i>${p.agent ? esc(p.agent) : 'no agent'}</span>
     </div>
   </div>
   ${p.description ? `<div class="card-desc">${esc(p.description)}</div>` : ''}
-  <div class="card-footer">
-    <div class="progress-wrap">
-      <div class="progress-bar"><div class="progress-fill" style="width:${p.progress}%;background:${progressColor(p.progress)}"></div></div>
-      <span class="pct">${p.progress}%</span>
-    </div>
-    <span class="agent-pill"><i class="ti ti-robot"></i>${p.agent ? esc(p.agent) : 'no agent'}</span>
-  </div>
 </div>`).join('')}</div>`;
 }
 

@@ -1,0 +1,82 @@
+{
+  "updated": "2026-05-20T10:00:00Z",
+  "projects": [
+    {
+      "name": "finance-parser",
+      "description": "Parses bank CSV exports, categorizes spending, outputs monthly summaries.",
+      "status": "active",
+      "agent": "claude-sonnet",
+      "progress": 65,
+      "url": "https://github.com/yourname/finance-parser",
+      "updated": "2026-05-18T00:00:00Z",
+      "todos": ["Add Revolut CSV support", "Fix date parsing edge case"],
+      "issues": ["Multi-currency amounts break totals"],
+      "ideas": ["Auto-categorization with ML", "Monthly PDF export"],
+      "research": []
+    },
+    {
+      "name": "home-server",
+      "description": "Proxmox cluster, self-hosted services. Evaluating Tailscale vs WireGuard.",
+      "status": "active",
+      "agent": null,
+      "progress": 40,
+      "url": "https://github.com/yourname/home-server",
+      "updated": "2026-05-15T00:00:00Z",
+      "todos": ["Set up Nextcloud", "Configure backups", "DNS over HTTPS"],
+      "issues": [],
+      "ideas": ["Add UPS monitoring", "Grafana dashboard"],
+      "research": ["Tailscale vs WireGuard for remote access"]
+    },
+    {
+      "name": "language-learning-app",
+      "description": "SRS flashcard system with AI sentence generation. Stack undecided.",
+      "status": "active",
+      "agent": "gpt-4o",
+      "progress": 10,
+      "url": "https://github.com/yourname/language-app",
+      "updated": "2026-05-10T00:00:00Z",
+      "todos": ["Decide on stack", "Design spaced repetition algorithm"],
+      "issues": [],
+      "ideas": ["Offline mode", "Import Anki decks", "Voice pronunciation check"],
+      "research": ["Expo vs Tauri for cross-platform", "SRS algorithm options"]
+    },
+    {
+      "name": "blog",
+      "description": "Static site in Astro. Writing pipeline stalled, need topic focus.",
+      "status": "active",
+      "agent": "claude-opus",
+      "progress": 30,
+      "url": "https://github.com/yourname/blog",
+      "updated": "2026-04-20T00:00:00Z",
+      "todos": ["Pick a content niche"],
+      "issues": [],
+      "ideas": ["Newsletter integration"],
+      "research": []
+    },
+    {
+      "name": "habit-tracker",
+      "description": "React Native attempt. Too much native config pain for a solo project.",
+      "status": "graveyard",
+      "agent": null,
+      "progress": 20,
+      "url": "https://github.com/yourname/habit-tracker",
+      "updated": "2026-01-05T00:00:00Z",
+      "todos": [],
+      "issues": [],
+      "ideas": [],
+      "research": []
+    }
+  ],
+  "backlog": [
+    {
+      "title": "CLI tool for converting video game saves between platforms",
+      "type": "idea",
+      "created": "2026-04-01T00:00:00Z"
+    },
+    {
+      "title": "Look into self-hosted alternatives to Notion",
+      "type": "research",
+      "created": "2026-03-15T00:00:00Z"
+    }
+  ]
+}

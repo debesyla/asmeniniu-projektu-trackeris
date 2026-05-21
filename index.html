@@ -251,6 +251,8 @@ async function load() {
     document.getElementById('app').innerHTML = `
 <div class="error">
   <b>Could not load projects.json</b><br><br>
+  Create a local data file from the example first:<br><br>
+  <code>cp projects.example.json projects.json</code><br><br>
   Serve this folder locally — don't open index.html as a file directly.<br><br>
   <code>python3 -m http.server 8000</code> then open <code>http://localhost:8000</code>
 </div>`;

@@ -107,7 +107,7 @@ function normalize(d) {
   for (const p of d.projects) {
     p.status = p.status === 'graveyard' ? 'graveyard' : 'active';
     p.todos    = p.todos    || [];
-    p.issues   = p.issues   || [];
+    p.issues   = typeof p.issues === 'number' ? p.issues : (p.issues || []).length;
     p.ideas    = p.ideas    || [];
     p.research = p.research || [];
   }
@@ -120,7 +120,7 @@ function stats(projects) {
   return projects.reduce((s, p) => {
     s[p.status] = (s[p.status] || 0) + 1;
     s.all++;
-    s.issues += p.issues.length;
+    s.issues += p.issues;
     s.todos  += p.todos.length;
     return s;
   }, { all:0, active:0, graveyard:0, issues:0, todos:0 });
@@ -139,9 +139,19 @@ function relTime(iso) {
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+function isPrivate(p) {
+  if (!p.url) return false;
+  try {
+    const segs = new URL(p.url).pathname.split('/').filter(Boolean);
+    return segs.length >= 2 && segs[segs.length-1].startsWith('private-');
+  } catch(e) { return false; }
+}
+
 function render() {
   const { projects, backlog, updated } = data;
-  const s = stats(projects);
+  const visible = projects.filter(p => !isPrivate(p));
+  const privateCount = projects.length - visible.length;
+  const s = stats(visible);
   const isBacklog = section === 'backlog';
   const title = isBacklog ? 'Backlog' : cap(filter === 'all' ? 'All projects' : filter);
 
@@ -165,7 +175,7 @@ function render() {
   <div class="main">
     <div class="topbar">
       <span class="topbar-title">${title}</span>
-      <span class="topbar-meta">DB updated ${relTime(updated)}</span>
+      <span class="topbar-meta">DB updated ${relTime(updated)}${privateCount ? ` · ${privateCount} private hidden` : ''}</span>
     </div>
 
     ${!isBacklog ? `
@@ -178,7 +188,7 @@ function render() {
 
     <div class="content">
       ${isBacklog ? renderBacklog(backlog) : renderProjects(
-        projects
+        visible
           .filter(p => filter==='all' || p.status===filter)
           .sort((a, b) => new Date(b.updated) - new Date(a.updated))
       )}
@@ -201,7 +211,7 @@ function renderProjects(projects) {
     </div>
     <div class="badges">
       <span class="badge badge-${p.status}">${cap(p.status)}</span>
-      <span class="badge badge-issue">${p.issues.length} GitHub issue${p.issues.length===1?'':'s'}</span>
+      <span class="badge badge-issue">${p.issues} GitHub issue${p.issues===1?'':'s'}</span>
       <span class="agent-pill"><i class="ti ti-robot"></i>${p.agent ? esc(p.agent) : 'no agent'}</span>
     </div>
   </div>
